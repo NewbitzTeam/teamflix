@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>ACTIONZONE INDOOR</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- css -->
+  <link href="https://fonts.googleapis.com/css?family=Noto+Serif:400,400italic,700|Open+Sans:300,400,600,700" rel="stylesheet">
+
+  <!-- Theme skin -->
+  <link href="assets/css/sikins-default.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/flag-icon.min.css">
+  <link rel="stylesheet" href="assets/css/gaxon-icon.css">
+  <!-- /font icon Styles -->
+
+  <!-- Perfect Scrollbar stylesheet -->
+  <link rel="stylesheet" href="assets/css/perfect-scrollbar.css">
+  <!-- /perfect scrollbar stylesheet -->
+
+  <!-- Load Styles -->
+
+  <link rel="stylesheet" href="assets/css/lite-style-1.min.css">
+</head>
+
+<body style="padding:0 !important;">
+  <app-root></app-root>
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/moment.js"></script>
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <!-- Perfect Scrollbar jQuery -->
+  <script src="assets/js/perfect-scrollbar.min.js"></script>
+  <!-- /perfect scrollbar jQuery -->
+
+  <!-- masonry script -->
+  <script src="assets/js/masonry.pkgd.min.js"></script>
+
+  <!-- Sweet Alert -->
+  <script src="assets/js/sweetalert2.js"></script>
+  <script src="assets/js/custom/sweet-alert.js"></script>
+
+  <!-- Custom JavaScript -->
+  <script src="assets/js/script.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+
+    })
+
+    function schedule() {
+      $('#calendar').css('display', '');
+    }
+    function calendar() {
+      $('#time').css('display', '');
+    }
+    function time() {
+      $('#premium').css('display', '');
+    }
+    function premium() {
+      $('#price').css('display', '');
+      if ($('#simple-select-1').val() == 1) {
+        $('#price').css('display', '');
+        $('#price_text').text('$20');
+      }
+      else if ($('#simple-select-1').val() == 2) {
+        $('#price').css('display', '');
+        $('#price_text').text('$40');
+
+      }
+      else if ($('#simple-select-1').val() == 3) {
+        $('#price').css('display', '');
+        $('#price_text').text('$100');
+      }
+      else if ($('#simple-select-1').val() == 4) {
+        $('#price').css('display', '');
+        $('#price_text').text('$200');
+      }
+      else if ($('#simple-select-1').val() == 5) {
+        $('#price').css('display', '');
+        $('#price_text').text('$500');
+      }
+      $('.btn-outline-success').removeClass('disabled');
+      $('.btn-outline-info').removeClass('disabled');
+    }
+  </script>
+</body>
+
+</html>
