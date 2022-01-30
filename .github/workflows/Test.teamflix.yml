@@ -1,0 +1,41 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Test Teamflix Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16.X
+        cache: 'npm'
+    - name: NPM Install
+      run: npm install
+    - name: Angular CLI Install
+      run: npm install -g @angular/cli > /dev/null
+    - name: Build Test Newbitz
+      run: ng build -c=production
+    - name: Delete Existing Nbtest main files
+      run : sudo sshpass -p ${{ secrets.NBITZ_PWD }} -v ssh -o StrictHostKeyChecking=no ${{ secrets.NBITZ_UN }}@${{ secrets.NBITZ_HOST }} 'rm -rf /local/apps/teamflix-live/test/*'
+    - name: Compress and Copy New Files to server
+      run : |
+            cd dist/Nbitz/
+            tar -czvf ../../tf.tar.gz ./
+            cd ..
+            cd ..
+            sudo sshpass -p ${{ secrets.NBITZ_PWD }} scp -v -o StrictHostKeyChecking=no tf.tar.gz ${{ secrets.NBITZ_UN }}@${{ secrets.NBITZ_HOST }}:/local/apps/teamflix-live/test/
+    - name: Deploy new Files, Restart nginx
+      run : sudo sshpass -p ${{ secrets.NBITZ_PWD }} -v ssh -o StrictHostKeyChecking=no ${{ secrets.NBITZ_UN }}@${{ secrets.NBITZ_HOST }} 'cd /local/apps/teamflix-live/test/ && tar -xzvf tf.tar.gz && rm tf.tar.gz && sudo systemctl restart nginx'
+   
