@@ -25,17 +25,17 @@ jobs:
       run: npm install
     - name: Angular CLI Install
       run: npm install -g @angular/cli > /dev/null
-    - name: Build Test Newbitz
+    - name: Build Test Teamflix
       run: ng build -c=production
-    - name: Delete Existing Nbtest main files
+    - name: Delete Existing Teamflix main files
       run : sudo sshpass -p ${{ secrets.NBITZ_PWD }} -v ssh -o StrictHostKeyChecking=no ${{ secrets.NBITZ_UN }}@${{ secrets.NBITZ_HOST }} 'rm -rf /local/apps/teamflix-live/test/*'
-    - name: Compress and Copy New Files to server
-      run : |
-            cd dist/Nbitz/
-            tar -czvf ../../tf.tar.gz ./
-            cd ..
-            cd ..
-            sudo sshpass -p ${{ secrets.NBITZ_PWD }} scp -v -o StrictHostKeyChecking=no tf.tar.gz ${{ secrets.NBITZ_UN }}@${{ secrets.NBITZ_HOST }}:/local/apps/teamflix-live/test/
+    - name: Copy via ssh    
+      uses: garygrossgarten/github-action-scp@v0.7.3
+      with:
+        local: /home/runner/work/teamflix/teamflix/dist/
+        remote: /local/apps/teamflix/
+        host: ${{ secrets.NBITZ_HOST }}
+        username: ${{ secrets.NBITZ_UN }}
+        password: ${{ secrets.NBITZ_PWD }}
     - name: Deploy new Files, Restart nginx
-      run : sudo sshpass -p ${{ secrets.NBITZ_PWD }} -v ssh -o StrictHostKeyChecking=no ${{ secrets.NBITZ_UN }}@${{ secrets.NBITZ_HOST }} 'cd /local/apps/teamflix-live/test/ && tar -xzvf tf.tar.gz && rm tf.tar.gz && sudo systemctl restart nginx'
-   
+      run : sudo sshpass -p ${{ secrets.NBITZ_PWD }} -v ssh -o StrictHostKeyChecking=no ${{ secrets.NBITZ_UN }}@${{ secrets.NBITZ_HOST }} 'sudo systemctl restart nginx'
