@@ -8,7 +8,5 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'teamflix';
   constructor() { 
-    debugger;debugger;
-    alert('lk');
   }
 }
